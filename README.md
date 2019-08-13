@@ -1,2 +1,3 @@
 # BattleTank
 BattleTank game for UE4 learning
+Simple. Not much point making this more complicated than needed...
