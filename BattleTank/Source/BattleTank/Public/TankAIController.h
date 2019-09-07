@@ -8,6 +8,7 @@
 #include "Runtime/Engine/Classes/GameFramework/Controller.h"
 #include "GameFramework/PlayerController.h"
 #include "AIController.h"
+#include "Runtime/Engine/Classes/GameFramework/Actor.h"
 #include "TankAIController.generated.h"
 
 /**
@@ -25,6 +26,8 @@ private:
 
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
+	
+	void AimTowardsPlayer();
 
 
 	
