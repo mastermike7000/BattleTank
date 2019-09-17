@@ -1,6 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "TankAimingComponent.h"
+#include "Tank.h"
+
+
 
 void ATankPlayerController::BeginPlay()
 {
@@ -36,11 +40,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 		GetControlledTank()->AimAt(HitLocation);
 	}
 
-
-	// Get world location through crosshair by linetrace
-	// If it hits something, then
-		// TODO Tell controlled tank to aim at this point
-
 }
 
 ATank* ATankPlayerController::GetControlledTank() const
@@ -59,10 +58,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookDirection;
 
 	if (GetLookDirection(ScreenLocation, LookDirection)) {
-		GetLookVectorHitLocation(LookDirection, HitLocation);
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	};
 
-	return true;
+	return false;
 }
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const
 {

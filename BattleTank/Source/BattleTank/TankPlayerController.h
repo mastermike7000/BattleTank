@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Tank.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "Runtime/Engine/Classes/GameFramework/Controller.h"
-#include "GameFramework/PlayerController.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
+#include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
+
+// Forward declarations
+class ATank;
 
 // DECLARE_DYNAMIC_MULTICAST_DELEGATE(LineTraceRange);
 
