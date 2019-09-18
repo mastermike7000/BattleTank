@@ -66,7 +66,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("%s: No aim solution found!"), *GetOwner()->GetName())
+		// UE_LOG(LogTemp, Warning, TEXT("%s: No aim solution found!"), *GetOwner()->GetName())
 	}
 }
 
