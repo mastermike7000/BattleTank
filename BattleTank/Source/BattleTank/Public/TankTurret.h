@@ -8,7 +8,7 @@
 #include "TankTurret.generated.h"
 
 /**
- * 
+ * Controls rotation of tank turret
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankTurret : public UStaticMeshComponent

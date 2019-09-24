@@ -9,39 +9,19 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (GetPlayerTank()) 
+	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto ControlledTank = Cast<ATank>(GetPawn());
+
+	if (PlayerTank) 
 	{
 		// TODO Make AI move towards player
-		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
-		// TODO Make AI fire if ready
+		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		// TODO Decide if it wants to fire
+		ControlledTank->Fire();
 	}
-	
-}
-
-void ATankAIController::AimTowardsPlayer()
-{
-	if (!GetControlledTank()) { // pointer protection
-		return;
-	}
-
-	FVector AimLocation = GetPlayerTank()->GetActorLocation();
-	
-
-}
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("AIController on %s"), *GetControlledTank()->GetName());
-	UE_LOG(LogTemp, Warning, TEXT("AIController on %s finds player pawn %s"), *GetControlledTank()->GetName(), *GetPlayerTank()->GetName());
 }

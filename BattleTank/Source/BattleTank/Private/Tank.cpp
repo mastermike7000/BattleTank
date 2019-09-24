@@ -45,25 +45,32 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
+void ATank::SetTrackReference(UTankTrack * TrackToSet)
+{
+	if (!TrackToSet) {
+		UE_LOG(LogTemp, Error, TEXT("No track reference set on %s!"), *GetName())
+		return;
+	}
+}
+
 
 void ATank::Fire()
 {
-	// pointer protection
-	if (!Barrel) {return; }
+	bool IsReloaded = (GetWorld()->GetTimeSeconds() > (LastFireTime + ReloadTime));
 
-	// Spawn a projectile at location of end of barrel socket
+	if (Barrel && IsReloaded)
+	{
+		LastFireTime = GetWorld()->GetTimeSeconds();
 
-	// FVector SpawnLocation = Barrel->GetSocketLocation("BarrelEnd");
-	// UE_LOG(LogTemp, Warning, TEXT("Spawn location for projectile: %s"), *SpawnLocation.ToString())
+		auto NewProjectile = GetWorld()->SpawnActor<AProjectile>
+			(
+				ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("BarrelEnd")),
+				Barrel->GetSocketRotation(FName("BarrelEnd"))
+				);
 
-	auto NewProjectile = GetWorld()->SpawnActor<AProjectile>
-	(
-		ProjectileBlueprint,
-		Barrel->GetSocketLocation(FName ("BarrelEnd")),
-		Barrel->GetSocketRotation(FName ("BarrelEnd"))
-	);
-
-	NewProjectile->LaunchProjectile(LaunchSpeed);
+		NewProjectile->LaunchProjectile(LaunchSpeed);
+	}
 }
 
 
@@ -71,6 +78,7 @@ void ATank::Fire()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+	LastFireTime = GetWorld()->GetTimeSeconds() - ReloadTime;
 	
 }
 
