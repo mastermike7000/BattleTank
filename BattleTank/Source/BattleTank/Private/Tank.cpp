@@ -2,6 +2,7 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "Projectile.h"
 #include "TankBarrel.h"
 
@@ -13,8 +14,9 @@ ATank::ATank()
 
 	// No need to protect pointers as added at construction
 
+	// Add components to Blueprint
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	// Fire = CreateDefaultSubobject<UFire>(FName("Firing Component"));
+	// TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
 
 }
