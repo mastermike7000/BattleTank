@@ -6,10 +6,13 @@
 #include "GameFramework/NavMovementComponent.h"
 #include "TankMovementComponent.generated.h"
 
+// Forward declarations
+class UTankTrack;
+
 /**
- * Fly-by-wire movement component for tank, instructable by both player and AI
+ * Fly-by-wire movement component for tank
  */
-UCLASS()
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()
@@ -18,15 +21,17 @@ public:
 
 	// Fly-by-wire direction intentions
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = Input)
 	void IntendMoveForward(float Throw);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = Input)
 	void IntendMoveBackward(float Throw);
 
-	// void IntendMoveBackward();
-	// void IntendMoveLeft();
-	// void IntendMoveRight();
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
+private:
+	UTankTrack* LeftTrack = nullptr;
+	UTankTrack* RightTrack = nullptr;
 
 };
