@@ -6,34 +6,47 @@
 
 void UTankMovementComponent::IntendMoveForward(float Throw) 
 {
-	UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), Throw)
+	LogTrackPointerErrors();
+	if (!LeftTrack || !RightTrack) { return; }
+
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
-
-	//TODO Prevent double speed
 }
 
-void UTankMovementComponent::IntendMoveBackward(float Throw)
+void UTankMovementComponent::IntendRotateClockwise(float Throw)
 {
-	
-	UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), -Throw)
+	LogTrackPointerErrors();
+	if (!LeftTrack || !RightTrack) {return;}
 
-	LeftTrack->SetThrottle(-Throw);
+	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
-
-	//TODO Prevent double speed
 }
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	// pointer protection with useful errors
-	if (!LeftTrackToSet) {UE_LOG(LogTemp, Error, TEXT("No left track pointer on %s!"), *GetName())}
-	if (!RightTrackToSet) {UE_LOG(LogTemp, Error, TEXT("No right track pointer on %s!"), *GetName())}
-	if (!LeftTrackToSet || !RightTrackToSet) {return;}
-
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
+}
 
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	// Don't need to call super since parent class functionality is being replaced
 
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+
+	auto CrossProduct = FVector::CrossProduct(AIForwardIntention, TankForward);
+
+	IntendRotateClockwise(CrossProduct.Z);
+
+	IntendMoveForward(FVector::DotProduct(TankForward, AIForwardIntention));
+	
+}
+
+// Track pointer protection (spits outs errors if tracks are not hooked up in blueprint)
+void UTankMovementComponent::LogTrackPointerErrors()
+{
+	if (!LeftTrack) { UE_LOG(LogTemp, Error, TEXT("No left track pointer on %s!"), *GetOwner()->GetName()) }
+	if (!RightTrack) { UE_LOG(LogTemp, Error, TEXT("No right track pointer on %s!"), *GetOwner()->GetName()) }
 }

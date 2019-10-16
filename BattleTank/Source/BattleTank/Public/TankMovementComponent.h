@@ -20,18 +20,23 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 public:
 
 	// Fly-by-wire direction intentions
-
-	UFUNCTION(BlueprintCallable, Category = Input)
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendMoveForward(float Throw);
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void IntendRotateClockwise(float Throw);
 
-	UFUNCTION(BlueprintCallable, Category = Input)
-	void IntendMoveBackward(float Throw);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	// Initialisation for movement system in blueprint
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
+
+
+
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
+	void LogTrackPointerErrors();
 
 };
