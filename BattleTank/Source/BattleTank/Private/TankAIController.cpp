@@ -18,7 +18,6 @@ void ATankAIController::Tick(float DeltaTime)
 		// Move towards the player
 		MoveToActor(PlayerTank, AcceptanceRadius);
 
-		// TODO Make AI move towards player
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 		// TODO Decide if it wants to fire
 		// ControlledTank->Fire();

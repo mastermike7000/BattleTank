@@ -23,7 +23,7 @@ void UTankMovementComponent::IntendRotateClockwise(float Throw)
 	RightTrack->SetThrottle(-Throw);
 }
 
-void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
+void UTankMovementComponent::InitialiseMovement(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;

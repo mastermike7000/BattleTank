@@ -31,8 +31,6 @@ private:
 	// where the crosshair intersects the world
 	void AimTowardsCrosshair();
 
-	ATank* GetControlledTank() const;
-
 	// Return an OUT parameter, true if hit landscape
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 
@@ -50,4 +48,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000.f;
+
+protected:
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
 };

@@ -27,7 +27,7 @@ public:
 
 	// Initialisation for movement system in blueprint
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
+	void InitialiseMovement(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
 private:
 	UTankTrack* LeftTrack = nullptr;

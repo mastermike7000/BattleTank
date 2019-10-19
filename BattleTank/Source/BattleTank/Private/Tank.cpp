@@ -12,8 +12,6 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	// No need to protect pointers as added at construction
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -21,39 +19,20 @@ void ATank::AimAt(FVector HitLocation)
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	if (!BarrelToSet) {
-		UE_LOG(LogTemp, Error, TEXT("No barrel reference set on %s!"), *GetName())
-		return;
-	}
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
 
-	// Also set the local reference for spawning the projectiles
+
+
+void ATank::SetAimingReference(UTankAimingComponent * AimingComponent, UTankBarrel * BarrelToSet)
+{
+	TankAimingComponent =   AimingComponent;
 	Barrel = BarrelToSet;
 }
-
-void ATank::SetTurretReference(UTankTurret * TurretToSet)
-{
-	if (!TurretToSet) {
-		UE_LOG(LogTemp, Error, TEXT("No turret reference set on %s!"), *GetName())
-		return;
-	}
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
-
-void ATank::SetTrackReference(UTankTrack * TrackToSet)
-{
-	if (!TrackToSet) {
-		UE_LOG(LogTemp, Error, TEXT("No track reference set on %s!"), *GetName())
-		return;
-	}
-}
-
 
 void ATank::Fire()
 {
 	bool IsReloaded = (GetWorld()->GetTimeSeconds() > (LastFireTime + ReloadTime));
+
+	
 
 	if (Barrel && IsReloaded)
 	{
@@ -79,13 +58,6 @@ void ATank::BeginPlay()
 	
 }
 
-
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
 
 
 

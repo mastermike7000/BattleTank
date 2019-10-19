@@ -22,14 +22,11 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	//TODO - is the below fucking up the reference for the UI color changes?
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret* TurretToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTrackReference(UTankTrack* TrackToSet);
+	void SetAimingReference(UTankAimingComponent* AimingComponent, UTankBarrel* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
@@ -38,17 +35,14 @@ public:
 
 protected:
 
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovementComponent = nullptr;
+	UTankBarrel* Barrel = nullptr;
 
 private:	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000.f;
@@ -61,6 +55,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
-	UTankBarrel* Barrel = nullptr;
+
 
 };
